@@ -1,0 +1,45 @@
+{
+    "name": "flashy/flashy-php",
+    "description": "PHP library for the Flashy API.",
+    "keywords": [
+        "flashy",
+        "flashy-php"
+    ],
+    "homepage": "https://github.com/flashy/flashy-php",
+    "license": "MIT",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Rafael Mor",
+            "email": "hello@flashyapp.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "ext-curl": "*",
+        "ext-json": "*"
+    },
+    "require-dev": {
+        "laravel/helpers": "^1.4",
+        "phpunit/phpunit": "^8.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Flashy\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Flashy\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+
+    },
+    "config": {
+        "sort-packages": true
+    }
+}
