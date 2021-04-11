@@ -1,6 +1,6 @@
 <?php
 
-namespace Flashy\Flashy\Exceptions;
+namespace Flashy\Exceptions;
 
 use Exception;
 

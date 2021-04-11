@@ -1,11 +1,11 @@
 <?php
 
-namespace Flashy\Flashy\Services;
+namespace Flashy\Services;
 
-use Flashy\Flashy\Exceptions\FlashyClientException;
-use Flashy\Flashy\Exceptions\FlashyResponseException;
-use Flashy\Flashy\Flashy;
-use Flashy\Flashy\Response;
+use Flashy\Exceptions\FlashyClientException;
+use Flashy\Exceptions\FlashyResponseException;
+use Flashy\Flashy;
+use Flashy\Response;
 
 class Lists {
 

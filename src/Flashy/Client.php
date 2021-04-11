@@ -1,9 +1,9 @@
 <?php
 
-namespace Flashy\Flashy;
+namespace Flashy;
 
-use Flashy\Flashy\Exceptions\FlashyClientException;
-use Flashy\Flashy\Exceptions\FlashyResponseException;
+use Flashy\Exceptions\FlashyClientException;
+use Flashy\Exceptions\FlashyResponseException;
 
 class Client
 {
@@ -78,7 +78,7 @@ class Client
     /**
      * @param $endpoint
      * @param array $params
-     * @return array|bool|float|int|mixed
+     * @return Response
      * @throws FlashyClientException
      * @throws FlashyResponseException
      */

@@ -1,12 +1,12 @@
 <?php
 
-namespace Flashy\Flashy;
+namespace Flashy;
 
-use Flashy\Flashy\Exceptions\FlashyException;
-use Flashy\Flashy\Services\Account;
-use Flashy\Flashy\Services\Contacts;
-use Flashy\Flashy\Services\Events;
-use Flashy\Flashy\Services\Lists;
+use Flashy\Exceptions\FlashyException;
+use Flashy\Services\Account;
+use Flashy\Services\Contacts;
+use Flashy\Services\Events;
+use Flashy\Services\Lists;
 
 /**
  * @property Contacts contacts
