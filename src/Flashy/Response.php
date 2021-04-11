@@ -1,8 +1,8 @@
 <?php
 
-namespace Flashy\Flashy;
+namespace Flashy;
 
-use Flashy\Flashy\Exceptions\FlashyResponseException;
+use Flashy\Exceptions\FlashyResponseException;
 
 class Response implements \ArrayAccess
 {

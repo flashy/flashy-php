@@ -1,6 +1,6 @@
 <?php
 
-namespace Flashy\Flashy;
+namespace Flashy;
 
 // TODO needs to switch the flashy_id to fls_id = contact_id
 

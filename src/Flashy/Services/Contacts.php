@@ -1,13 +1,13 @@
 <?php
 
-namespace Flashy\Flashy\Services;
+namespace Flashy\Services;
 
-use Flashy\Flashy\Exceptions\FlashyClientException;
-use Flashy\Flashy\Exceptions\FlashyException;
-use Flashy\Flashy\Exceptions\FlashyResponseException;
-use Flashy\Flashy\Flashy;
-use Flashy\Flashy\Helper;
-use Flashy\Flashy\Response;
+use Flashy\Exceptions\FlashyClientException;
+use Flashy\Exceptions\FlashyException;
+use Flashy\Exceptions\FlashyResponseException;
+use Flashy\Flashy;
+use Flashy\Helper;
+use Flashy\Response;
 
 class Contacts {
 
