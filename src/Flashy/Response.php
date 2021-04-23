@@ -13,13 +13,29 @@ class Response implements \ArrayAccess
     private $body;
 
     /**
+     * @var array
+     */
+    private $headers;
+
+    /**
      * Response constructor.
      * @param $response
+     * @param bool $decode
+     * @param $headers
      * @throws FlashyResponseException
      */
-    public function __construct($response)
+    public function __construct($response, $decode = true, $headers = [])
     {
-        $this->body = $this->decode($response);
+        if( $decode === true )
+        {
+            $this->body = $this->decode($response);
+        }
+        else
+        {
+            $this->body = $response;
+        }
+
+        $this->headers = $headers;
     }
 
     /**
@@ -99,7 +115,7 @@ class Response implements \ArrayAccess
 
     /**
      * @param mixed $offset
-     * @return bool|void
+     * @return bool
      */
     public function offsetExists($offset)
     {
@@ -130,6 +146,14 @@ class Response implements \ArrayAccess
     public function offsetUnset($offset)
     {
         unset($this->body['data'][$offset]);
+    }
+
+    /**
+     * @return array
+     */
+    public function getHeaders()
+    {
+        return $this->headers;
     }
 
 }

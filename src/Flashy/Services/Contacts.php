@@ -54,11 +54,7 @@ class Contacts {
 
         if( $tracking === true )
         {
-            $contact = $request->getData();
-
-            $this->flashy->events->bulk($contact['contact_id']);
-
-            Helper::setContact($contact);
+            Helper::setContact($request->getData());
         }
 
         return $request;
@@ -119,6 +115,10 @@ class Contacts {
      */
     public function subscribe($contact, $lists, $primary_key = "email", $tracking = true)
     {
+        $contact = array(
+            $primary_key => $contact
+        );
+
         if( gettype($lists) !== "array" )
         {
             $lists = [$lists];
@@ -128,8 +128,6 @@ class Contacts {
         {
             $contact["lists"][$list] = 1;
         }
-
-        Helper::log($contact);
 
         return $this->create($contact, $primary_key, $tracking, true);
     }
@@ -145,6 +143,10 @@ class Contacts {
      */
     public function unsubscribe($contact, $lists, $primary_key = "email", $tracking = true)
     {
+        $contact = array(
+            $primary_key => $contact
+        );
+
         if( gettype($lists) !== "array" )
         {
             $lists = [$lists];
@@ -154,8 +156,6 @@ class Contacts {
         {
             $contact["lists"][$list] = 0;
         }
-
-        Helper::log($contact);
 
         return $this->create($contact, $primary_key, $tracking, true);
     }

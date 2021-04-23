@@ -2,8 +2,8 @@
 
 namespace Flashy\Tests;
 
-use Flashy\Flashy\Exceptions\FlashyException;
-use Flashy\Flashy\Flashy;
+use Flashy\Exceptions\FlashyException;
+use Flashy\Flashy;
 use Illuminate\Support\Arr;
 use PHPUnit\Framework\TestCase;
 

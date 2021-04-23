@@ -2,7 +2,7 @@
 
 namespace Flashy;
 
-// TODO needs to switch the flashy_id to fls_id = contact_id
+// TODO [low] needs to switch the flashy_id to fls_id = contact_id
 
 use Exception;
 
@@ -25,6 +25,14 @@ class Helper
     }
 
     /**
+     * @return mixed|null
+     */
+    public static function getContactId()
+    {
+        return self::getCookie("flashy_id");
+    }
+
+    /**
      * Get contact attribution
      * @return string|null
      */
@@ -33,7 +41,9 @@ class Helper
         $attribution = self::getCookie("attribution");
 
         if( !$attribution )
+        {
             return null;
+        }
 
         return implode(">", json_decode($attribution));
     }
@@ -50,7 +60,7 @@ class Helper
     /**
      * Delete the thunder cookie
      */
-    public static function deleteThunderCookie()
+    public static function clearThunderCookie()
     {
         setcookie("flashy_thunder", "", time()-3600, "/");
     }
@@ -102,7 +112,9 @@ class Helper
     public static function log($message)
     {
         if( gettype($message) === "array" )
+        {
             $message = json_encode($message);
+        }
 
         $message = $message . "\n";
 
@@ -118,7 +130,9 @@ class Helper
     public static function get($key, array $array, $default = null)
     {
         if( ! isset($array[$key]) )
+        {
             return $default;
+        }
 
         return $array[$key];
     }
@@ -130,9 +144,19 @@ class Helper
     public static function getFakeCookie($string)
     {
         if( !isset(self::$cookie[$string]) )
+        {
             return null;
+        }
 
         return self::$cookie[$string];
+    }
+
+    /**
+     * Forget the connected contact
+     */
+    public function forget()
+    {
+        setcookie("flashy_id", "", time()-3600, "/");
     }
 
 }

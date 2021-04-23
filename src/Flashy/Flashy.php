@@ -7,16 +7,17 @@ use Flashy\Services\Account;
 use Flashy\Services\Contacts;
 use Flashy\Services\Events;
 use Flashy\Services\Lists;
+use Flashy\Services\Messages;
 
 /**
+ * @property Account account
  * @property Contacts contacts
  * @property Lists lists
  * @property Events events
- * @property Account account
+ * @property Messages messages
  */
 class Flashy
 {
-
     /**
      * @var array
      */
@@ -42,7 +43,9 @@ class Flashy
         $this->config = array_merge($this->config, $config);
 
         if( !isset($this->config['api_key']) )
+        {
             throw new FlashyException("Flashy API Key missing");
+        }
 
         $this->loadHelpers();
 
@@ -59,7 +62,9 @@ class Flashy
         $service = strtolower($service);
 
         if( isset($this->services[$service]) )
+        {
             return $this->getService($service);
+        }
 
         if( !class_exists($this->getServiceNamespace($service)) && file_exists($this->getServicePath($service)) )
         {
@@ -84,7 +89,7 @@ class Flashy
      */
     private function getServiceNamespace($service)
     {
-        return "Flashy\\Flashy\\Services\\" . $this->getServiceName($service);
+        return "Flashy\\Services\\" . $this->getServiceName($service);
     }
 
     /**
@@ -119,8 +124,10 @@ class Flashy
      */
     private function loadHelpers()
     {
-        if( !class_exists("Flashy\\Flashy\\Helper") )
+        if( !class_exists("Flashy\\Helper") )
+        {
             require_once(__DIR__ . "/Helper.php");
+        }
     }
 
 }
