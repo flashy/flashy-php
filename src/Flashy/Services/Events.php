@@ -2,10 +2,12 @@
 
 namespace Flashy\Services;
 
+use Flashy\Client;
 use Flashy\Exceptions\FlashyClientException;
 use Flashy\Exceptions\FlashyResponseException;
 use Flashy\Flashy;
 use Flashy\Helper;
+use Flashy\Response;
 
 class Events {
 
@@ -15,28 +17,35 @@ class Events {
     protected $flashy;
 
     /**
+     * @var Client
+     */
+    private $client;
+
+    /**
      * Events constructor.
      * @param $flashy
      */
     public function __construct($flashy)
     {
         $this->flashy = $flashy;
+
+        $this->client = new Client();
+
+        $this->client->setBasePath("https://tracking.cbox/track");
     }
 
     /**
      * @param $event
      * @param $params
-     * @return array
+     * @return Response
      * @throws FlashyClientException
      * @throws FlashyResponseException
      */
     public function track($event, $params)
     {
-        $contact_id = Helper::getCookie("fls_id");
-
-        if( !isset($contact_id) && !isset($params['flashy_id']) && !isset($params['contact_id']) && !isset($params['email']) )
+        if( !isset($params['flashy_id']) && !isset($params['contact_id']) && !isset($params['email']) )
         {
-            return array('success' => false, 'errors' => 'email / contact id / flashy id not found');
+            return new Response(array('success' => false, 'errors' => 'email / contact id / flashy id not found'), false);
         }
 
         $payload = array(
@@ -44,19 +53,30 @@ class Events {
             "body" => $params
         );
 
-        $track = $this->flashy->client->post("track", $payload);
+        return $this->client->post("track", $payload);
     }
 
+    /**
+     * @param null $contact_id
+     * @param string $events_list
+     * @param string $identity
+     * @return Response
+     * @throws FlashyResponseException
+     * @throws FlashyClientException
+     */
     public function bulk($contact_id = null, $events_list = "cookie", $identity = "contact_id")
     {
         if( $contact_id == null )
         {
             $identity = "flashy_id";
 
-            $contact_id = $this->getContactId($contact_id);
+            $contact_id = Helper::getContactId();
         }
 
-        if($contact_id == null) return array('success' => false, 'errors' => 'contact id or flashy id not found');
+        if($contact_id == null)
+            return new Response(array('success' => false, 'errors' => 'contact id or flashy id not found'), false);
+
+        $events = array();
 
         if($events_list == "cookie" && isset($_COOKIE['flashy_thunder']))
         {
@@ -71,22 +91,18 @@ class Events {
         {
             $events = $events_list;
         }
-        else
+
+        if(count($events) == 0)
+            return new Response(array('success' => false, 'errors' => 'events not found'), false);
+
+        $call = $this->client->post('events', $events);
+
+        if( $call->success() )
         {
-            $events = array();
-        }
-
-        if(count($events) == 0) return array('success' => false, 'errors' => 'events not found');
-
-        $_params = array("events" => $events);
-
-        $call = $this->master->call('bulk', $_params, 'events');
-
-        if( isset($call['success']) && $call['success'] == true )
-        {
-            $this->deleteCookie();
+            Helper::clearThunderCookie();
         }
 
         return $call;
     }
+
 }

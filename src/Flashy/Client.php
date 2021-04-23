@@ -47,7 +47,7 @@ class Client
      * Client constructor.
      * @param $api_key
      */
-    public function __construct($api_key)
+    public function __construct($api_key = null)
     {
         $this->setApikey($api_key);
     }
@@ -112,6 +112,8 @@ class Client
 
         $endpoint = $this->base_path . $url;
 
+        $headers = [];
+
         curl_setopt($this->ch, CURLOPT_USERAGENT, 'Flashy-PHP/2.0.0');
         curl_setopt($this->ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($this->ch, CURLOPT_FOLLOWLOCATION, true);
@@ -120,12 +122,15 @@ class Client
         curl_setopt($this->ch, CURLOPT_CONNECTTIMEOUT, $this->connection_timeout);
         curl_setopt($this->ch, CURLOPT_TIMEOUT, $this->timeout);
         curl_setopt($this->ch, CURLOPT_URL, $endpoint);
-        curl_setopt($this->ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', 'x-api-key: ' . $this->apikey));
         curl_setopt($this->ch, CURLOPT_CUSTOMREQUEST, $method);
-//        curl_setopt($this->ch, CURLOPT_VERBOSE, $this->verbose);
 
+        if( $this->apikey )
+            curl_setopt($this->ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', 'x-api-key: ' . $this->apikey));
 
-        if( $payload )
+        if( $this->verbose )
+            curl_setopt($this->ch, CURLOPT_VERBOSE, $this->verbose);
+
+        if( gettype($payload) == "array" )
         {
             $payload = json_encode($payload);
 
@@ -134,9 +139,24 @@ class Client
 
         $start = microtime(true);
 
-        $this->log('Call to endpoint: ' . $endpoint . ' payload: ' . $payload);
+        $this->log('Call to endpoint: ' . strtoupper($method) . ' ' . $endpoint . ' payload: ' . $payload);
+
+        curl_setopt($this->ch, CURLOPT_HEADERFUNCTION, function($curl, $header) use (&$headers) {
+            $len = strlen($header);
+
+            $header = explode(':', $header, 2);
+
+            if (count($header) < 2)
+                return $len;
+
+            $headers[strtolower(trim($header[0]))][] = trim($header[1]);
+
+            return $len;
+        });
 
         $response_body = curl_exec($this->ch);
+
+        $this->log($headers);
 
         $info = curl_getinfo($this->ch);
 
@@ -151,7 +171,7 @@ class Client
             throw new FlashyClientException("API call to $url failed: " . curl_error($this->ch));
         }
 
-        return new Response($response_body);
+        return new Response($response_body, true, $headers);
     }
 
     /**

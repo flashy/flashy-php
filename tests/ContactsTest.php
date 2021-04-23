@@ -3,10 +3,10 @@
 namespace Flashy\Tests;
 
 use Exception;
-use Flashy\Flashy\Exceptions\FlashyClientException;
-use Flashy\Flashy\Exceptions\FlashyException;
-use Flashy\Flashy\Exceptions\FlashyResponseException;
-use Flashy\Flashy\Helper;
+use Flashy\Exceptions\FlashyClientException;
+use Flashy\Exceptions\FlashyException;
+use Flashy\Exceptions\FlashyResponseException;
+use Flashy\Helper;
 use Illuminate\Support\Str;
 
 class ContactsTest extends BaseTest
@@ -235,6 +235,108 @@ class ContactsTest extends BaseTest
 
         $this->assertArrayContains([
             'email' => 'sam@flashyapp.com',
+        ], $subscribe->getData());
+    }
+
+    /**
+     * @test
+     * @throws FlashyClientException
+     * @throws FlashyResponseException|FlashyException
+     */
+    public function get_contact_not_found()
+    {
+        $this->init();
+
+        $subscribe = $this->api->contacts->get("bad_contact");
+
+        $this->assertFalse($subscribe->success());
+    }
+
+    /**
+     * @test
+     * @throws FlashyClientException
+     * @throws FlashyResponseException|FlashyException
+     */
+    public function get_contact_not_found_by_contact_id()
+    {
+        $this->init();
+
+        $subscribe = $this->api->contacts->get("bad_contact", "contact_id");
+
+        $this->assertFalse($subscribe->success());
+    }
+
+    /**
+     * @test
+     * @throws FlashyClientException
+     * @throws FlashyResponseException|FlashyException
+     */
+    public function subscribe_contact_to_a_list()
+    {
+        $this->init();
+
+        $this->api->contacts->delete("sam@flashyapp.com");
+
+        $subscribe = $this->api->contacts->subscribe("sam@flashyapp.com", [4, 6]);
+
+        $this->assertTrue( $subscribe->success() );
+
+        $this->assertArrayContains([
+            'lists' => [4 => true, 6 => true],
+        ], $subscribe->getData());
+    }
+
+    /**
+     * @test
+     * @throws FlashyClientException
+     * @throws FlashyResponseException|FlashyException
+     */
+    public function subscribe_contact_to_a_list_by_contact_id()
+    {
+        $this->init();
+
+        $subscribe = $this->api->contacts->subscribe("d3c49d31a67f77ef3cbf0a83162f3f99", 5, "contact_id");
+
+        $this->assertTrue($subscribe->success());
+
+        $this->assertArrayContains([
+            'lists' => [4 => true, 6 => true, 5 => true],
+        ], $subscribe->getData());
+    }
+
+    /**
+     * @test
+     * @throws FlashyClientException
+     * @throws FlashyResponseException|FlashyException
+     */
+    public function unsubscribe_contact_to_a_list()
+    {
+        $this->init();
+
+        $subscribe = $this->api->contacts->unsubscribe("sam@flashyapp.com", [4, 6]);
+
+        $this->assertTrue($subscribe->success());
+
+        $this->assertArrayContains([
+            'lists' => [4 => false, 6 => false, 5 => true],
+        ], $subscribe->getData());
+    }
+
+    /**
+     * @test
+     * @throws FlashyClientException
+     * @throws FlashyResponseException|FlashyException
+     */
+    public function unsubscribe_contact_to_a_list_by_contact_id()
+    {
+        $this->init();
+
+        $subscribe = $this->api->contacts->unsubscribe("d3c49d31a67f77ef3cbf0a83162f3f99", 5, "contact_id");
+
+        $this->assertTrue($subscribe->success());
+
+        $this->assertArrayContains([
+            'lists' => [4 => false, 6 => false, 5 => false],
         ], $subscribe->getData());
     }
 

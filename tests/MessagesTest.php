@@ -7,24 +7,24 @@ use Flashy\Exceptions\FlashyException;
 use Flashy\Exceptions\FlashyResponseException;
 use Flashy\Helper;
 
-class AccountTest extends BaseTest
+class MessagesTest extends BaseTest
 {
 
     /**
      * @test
      * @throws FlashyClientException
-     * @throws FlashyResponseException
      * @throws FlashyException
+     * @throws FlashyResponseException
      */
-    public function get_account_info()
+    public function send_email_message_fail()
     {
         $this->init();
 
-        $account = $this->api->account->get();
+        $email = $this->api->messages->email([
+            "from" => [],
+        ]);
 
-        Helper::dd($account);
-
-        $this->assertTrue($account->success());
+        $this->assertFalse($email->success());
     }
 
 }
