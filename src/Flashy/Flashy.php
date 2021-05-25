@@ -128,6 +128,11 @@ class Flashy
         {
             require_once(__DIR__ . "/Helper.php");
         }
+
+        if( !class_exists("Flashy\\Client") )
+        {
+            require_once(__DIR__ . "/Client.php");
+        }
     }
 
 }
