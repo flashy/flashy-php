@@ -22,8 +22,6 @@ class AccountTest extends BaseTest
 
         $account = $this->api->account->get();
 
-        Helper::dd($account);
-
         $this->assertTrue($account->success());
     }
 

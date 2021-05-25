@@ -8,9 +8,11 @@ use Flashy\Services\Contacts;
 use Flashy\Services\Events;
 use Flashy\Services\Lists;
 use Flashy\Services\Messages;
+use Flashy\Services\Platforms;
 
 /**
  * @property Account account
+ * @property Platforms platforms
  * @property Contacts contacts
  * @property Lists lists
  * @property Events events
@@ -40,14 +42,14 @@ class Flashy
      */
     public function __construct($config)
     {
+        $this->loadDependencies();
+
         $this->config = array_merge($this->config, $config);
 
         if( !isset($this->config['api_key']) )
         {
             throw new FlashyException("Flashy API Key missing");
         }
-
-        $this->loadHelpers();
 
         $this->loadConfig();
 
@@ -133,18 +135,29 @@ class Flashy
     }
 
     /**
-     * Load Flashy Helpers
+     * Load Flashy Dependencies - auto loader for non composer projects
      */
-    private function loadHelpers()
+    private function loadDependencies()
     {
-        if( !class_exists("Flashy\\Helper") )
+        $dependencies = ['Helper', 'Response', 'Client'];
+
+        foreach( $dependencies as $dependency )
         {
-            require_once(__DIR__ . "/Helper.php");
+            if( !class_exists('Flashy\\' . $dependency) )
+                require_once(__DIR__ . '/' . $dependency . '.php');
         }
 
-        if( !class_exists("Flashy\\Client") )
+        if( !class_exists('Flashy\\FlashyException') )
         {
-            require_once(__DIR__ . "/Client.php");
+            $path = __DIR__ . "/Exceptions/";
+
+            foreach(scandir($path) as $filename)
+            {
+                if ( is_file($path . $filename) )
+                {
+                    require_once $path . $filename;
+                }
+            }
         }
     }
 
