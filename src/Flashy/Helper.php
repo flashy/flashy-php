@@ -11,6 +11,11 @@ class Helper
     public static $cookie;
 
     /**
+     * @var string
+     */
+    public static $path;
+
+    /**
      * @param $name
      * @return mixed|null
      */
@@ -118,7 +123,21 @@ class Helper
 
         $message = $message . "\n";
 
-        file_put_contents(__DIR__ . "/../../log/debug.log", $message, FILE_APPEND | LOCK_EX);
+        file_put_contents(self::getLogPath(), $message, FILE_APPEND | LOCK_EX);
+    }
+
+
+    /**
+     * Get Log Path
+     */
+    public static function getLogPath()
+    {
+        if( !self::$path )
+        {
+            return __DIR__ . "/../../log/debug.log";
+        }
+
+        return self::$path;
     }
 
     /**

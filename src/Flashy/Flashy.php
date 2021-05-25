@@ -49,7 +49,20 @@ class Flashy
 
         $this->loadHelpers();
 
+        $this->loadConfig();
+
         $this->client = new Client($this->config['api_key']);
+    }
+
+    /**
+     * Set Config Options
+     */
+    private function loadConfig()
+    {
+        if( isset($this->config['log_path']) )
+        {
+            Helper::$path = $this->config['log_path'];
+        }
     }
 
     /**
