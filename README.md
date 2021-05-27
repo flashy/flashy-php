@@ -5,7 +5,14 @@
 [![Quality Score](https://img.shields.io/scrutinizer/g/flashy/flashy-php.svg?style=flat-square)](https://scrutinizer-ci.com/g/flashy/flashy-php)
 [![Total Downloads](https://img.shields.io/packagist/dt/flashy/flashy-php.svg?style=flat-square)](https://packagist.org/packages/flashy/flashy-php)
 
-This is where your description should go. Try and limit it to a paragraph or two, and maybe throw in a mention of what PSRs you support to avoid any confusion with users and contributors.
+The Flashy SDK for PHP helps developers to easily connect to Flashy API.
+
+Through the integration you can:
+* Create, update and delete contacts
+* Send emails
+* Send SMS
+* Send Push Notifications
+* Send Tracking Events
 
 ## Installation
 
@@ -18,7 +25,9 @@ composer require flashy/flashy-php
 ## Usage
 
 ``` php
-// Usage description here
+$flashy = new Flashy\Flashy($config);
+
+$flashy->contacts->create($contact);
 ```
 
 ### Testing
