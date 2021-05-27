@@ -25,10 +25,11 @@ class Messages {
     }
 
     /**
+     * @param array $message
      * @return Response
      * @throws FlashyClientException
-     * @throws FlashyResponseException
      * @throws FlashyException
+     * @throws FlashyResponseException
      */
     public function email($message = [])
     {
@@ -41,10 +42,11 @@ class Messages {
     }
 
     /**
+     * @param array $message
      * @return Response
      * @throws FlashyClientException
-     * @throws FlashyResponseException
      * @throws FlashyException
+     * @throws FlashyResponseException
      */
     public function sms($message = [])
     {
@@ -62,7 +64,7 @@ class Messages {
      */
     public function validateMessage($message)
     {
-        if( !$message || count($message) === 0 || gettype($message) != "array" )
+        if( count($message) === 0 || gettype($message) != "array" )
             throw new FlashyException("Message body is invalid");
     }
 
