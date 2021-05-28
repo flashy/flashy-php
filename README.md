@@ -1,12 +1,13 @@
 # Flashy PHP
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/flashy/flashy-php.svg?style=flat-square)](https://packagist.org/packages/flashy/flashy-php)
+Flashy offers the best marketing automation and personalization tools to SMBs and the agencies that serve them. We empower your small team to be as effective as the tech giants at building loyal, personal customer relationships that skyrocket sales.
 
-The Flashy SDK for PHP helps developers to easily connect to Flashy API.
+## How this package will help you?
 
-Through the integration you can:
-* Create, update and delete contacts
-* Send emails
+The Flashy SDK for PHP helps developers to easily connect to Flashy API, through the integration you can:
+* Manage Contacts
+* Manage Lists
+* Send Email Messages
 * Send SMS
 * Send Push Notifications
 * Send Tracking Events
@@ -19,18 +20,17 @@ You can install the package via composer:
 composer require flashy/flashy-php
 ```
 
+Or you can download the "src" folder and manually add it to your project, you will need to include Flashy before you can use it:
+```bash
+require_once("your_path/Flashy.php");
+```
+
 ## Usage
 
 ``` php
 $flashy = new Flashy\Flashy($config);
 
 $flashy->contacts->create($contact);
-```
-
-### Testing
-
-``` bash
-composer test
 ```
 
 ### Changelog
