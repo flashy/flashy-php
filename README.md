@@ -1,9 +1,6 @@
 # Flashy PHP
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/flashy/flashy-php.svg?style=flat-square)](https://packagist.org/packages/flashy/flashy-php)
-[![Build Status](https://img.shields.io/travis/flashy/flashy-php/master.svg?style=flat-square)](https://travis-ci.org/flashy/flashy-php)
-[![Quality Score](https://img.shields.io/scrutinizer/g/flashy/flashy-php.svg?style=flat-square)](https://scrutinizer-ci.com/g/flashy/flashy-php)
-[![Total Downloads](https://img.shields.io/packagist/dt/flashy/flashy-php.svg?style=flat-square)](https://packagist.org/packages/flashy/flashy-php)
 
 The Flashy SDK for PHP helps developers to easily connect to Flashy API.
 
