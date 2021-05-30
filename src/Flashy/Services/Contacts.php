@@ -2,6 +2,7 @@
 
 namespace Flashy\Services;
 
+use Flashy\Exceptions\FlashyAuthenticationException;
 use Flashy\Exceptions\FlashyClientException;
 use Flashy\Exceptions\FlashyException;
 use Flashy\Exceptions\FlashyResponseException;
@@ -22,13 +23,13 @@ class Contacts {
     }
 
     /**
-     * @param $contact
-     * @param string $primary_key
-     * @param bool $tracking
-     * @param null $overwrite
+     * @param array $contact Contact information array
+     * @param string $primary_key Default is email but any field can be used
+     * @param bool $tracking Set cookie to remember the contact
+     * @param null $overwrite Update contact properties if exists
      * @return Response
      * @throws FlashyClientException
-     * @throws FlashyResponseException
+     * @throws FlashyResponseException|FlashyAuthenticationException
      */
     public function create($contact, $primary_key = "email", $tracking = true, $overwrite = null)
     {
@@ -61,11 +62,11 @@ class Contacts {
     }
 
     /**
-     * @param $contact
-     * @param string $primary_key
+     * @param array $contact Contact information array
+     * @param string $primary_key Default is email but any field can be used
      * @return Response
      * @throws FlashyClientException
-     * @throws FlashyResponseException|FlashyException
+     * @throws FlashyResponseException|FlashyException|FlashyAuthenticationException
      */
     public function update($contact, $primary_key = "email")
     {
@@ -81,11 +82,11 @@ class Contacts {
     }
 
     /**
-     * @param $identifier
-     * @param string $primary_key
+     * @param mixed $identifier The identifier to find the contact
+     * @param string $primary_key Default is email but any field can be used (phone, token)
      * @return Response
      * @throws FlashyClientException
-     * @throws FlashyResponseException
+     * @throws FlashyResponseException|FlashyAuthenticationException
      */
     public function get($identifier, $primary_key = "email")
     {
@@ -97,7 +98,7 @@ class Contacts {
      * @param string $primary_key
      * @return Response
      * @throws FlashyClientException
-     * @throws FlashyResponseException
+     * @throws FlashyResponseException|FlashyAuthenticationException
      */
     public function delete($identifier, $primary_key = "email")
     {
@@ -111,7 +112,7 @@ class Contacts {
      * @param bool $tracking
      * @return Response
      * @throws FlashyClientException
-     * @throws FlashyResponseException
+     * @throws FlashyResponseException|FlashyAuthenticationException
      */
     public function subscribe($contact, $lists, $primary_key = "email", $tracking = true)
     {
@@ -139,7 +140,7 @@ class Contacts {
      * @param bool $tracking
      * @return Response
      * @throws FlashyClientException
-     * @throws FlashyResponseException
+     * @throws FlashyResponseException|FlashyAuthenticationException
      */
     public function unsubscribe($contact, $lists, $primary_key = "email", $tracking = true)
     {
@@ -165,7 +166,7 @@ class Contacts {
      * @param string $primary_key
      * @return Response
      * @throws FlashyClientException
-     * @throws FlashyResponseException
+     * @throws FlashyResponseException|FlashyAuthenticationException
      */
     public function lists($identifier, $primary_key = "email")
     {

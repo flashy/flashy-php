@@ -156,4 +156,12 @@ class Response implements \ArrayAccess
         return $this->headers;
     }
 
+    /**
+     * @return array
+     */
+    public function toArray()
+    {
+        return $this->body;
+    }
+
 }

@@ -2,6 +2,7 @@
 
 namespace Flashy;
 
+use Flashy\Exceptions\FlashyAuthenticationException;
 use Flashy\Exceptions\FlashyClientException;
 use Flashy\Exceptions\FlashyResponseException;
 
@@ -56,7 +57,7 @@ class Client
      * @param $endpoint
      * @return Response
      * @throws FlashyClientException
-     * @throws FlashyResponseException
+     * @throws FlashyResponseException|FlashyAuthenticationException
      */
     public function get($endpoint)
     {
@@ -68,7 +69,7 @@ class Client
      * @param array $params
      * @return Response
      * @throws FlashyClientException
-     * @throws FlashyResponseException
+     * @throws FlashyResponseException|FlashyAuthenticationException
      */
     public function post($endpoint, $params = [])
     {
@@ -80,7 +81,7 @@ class Client
      * @param array $params
      * @return Response
      * @throws FlashyClientException
-     * @throws FlashyResponseException
+     * @throws FlashyResponseException|FlashyAuthenticationException
      */
     public function put($endpoint, $params = [])
     {
@@ -91,7 +92,7 @@ class Client
      * @param $endpoint
      * @return Response
      * @throws FlashyClientException
-     * @throws FlashyResponseException
+     * @throws FlashyResponseException|FlashyAuthenticationException
      */
     public function delete($endpoint)
     {
@@ -105,6 +106,7 @@ class Client
      * @return Response
      * @throws FlashyClientException
      * @throws FlashyResponseException
+     * @throws FlashyAuthenticationException
      */
     public function call($method, $url, $payload = null)
     {
@@ -159,6 +161,11 @@ class Client
         $this->log($headers);
 
         $info = curl_getinfo($this->ch);
+
+        if( $info['http_code'] == 401 )
+        {
+            throw new FlashyAuthenticationException("Flashy API Key is not authenticated");
+        }
 
         $time = microtime(true) - $start;
 
