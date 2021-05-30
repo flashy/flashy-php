@@ -21,8 +21,8 @@ class Client
     /**
      * @var string
      */
-    protected $base_path = 'http://storm.cbox/';
-//    protected $base_path = 'https://api.flashy.dev/';
+//    protected $base_path = 'http://storm.cbox/';
+    protected $base_path = 'https://api.flashy.dev/';
 
     /**
      * @var bool Debug Mode
