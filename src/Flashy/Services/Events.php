@@ -3,6 +3,7 @@
 namespace Flashy\Services;
 
 use Flashy\Client;
+use Flashy\Exceptions\FlashyAuthenticationException;
 use Flashy\Exceptions\FlashyClientException;
 use Flashy\Exceptions\FlashyResponseException;
 use Flashy\Flashy;
@@ -31,7 +32,7 @@ class Events {
 
         $this->client = new Client();
 
-        $this->client->setBasePath("https://tracking.cbox/track");
+//        $this->client->setBasePath("https://tracking.cbox/track");
     }
 
     /**
@@ -39,7 +40,7 @@ class Events {
      * @param $params
      * @return Response
      * @throws FlashyClientException
-     * @throws FlashyResponseException
+     * @throws FlashyResponseException|FlashyAuthenticationException
      */
     public function track($event, $params)
     {
@@ -62,7 +63,7 @@ class Events {
      * @param string $identity
      * @return Response
      * @throws FlashyResponseException
-     * @throws FlashyClientException
+     * @throws FlashyClientException|FlashyAuthenticationException
      */
     public function bulk($contact_id = null, $events_list = "cookie", $identity = "contact_id")
     {

@@ -2,6 +2,7 @@
 
 namespace Flashy\Services;
 
+use Flashy\Exceptions\FlashyAuthenticationException;
 use Flashy\Exceptions\FlashyClientException;
 use Flashy\Exceptions\FlashyException;
 use Flashy\Exceptions\FlashyResponseException;
@@ -27,9 +28,7 @@ class Messages {
     /**
      * @param array $message
      * @return Response
-     * @throws FlashyClientException
-     * @throws FlashyException
-     * @throws FlashyResponseException
+     * @throws FlashyClientException|FlashyResponseException|FlashyAuthenticationException|FlashyException
      */
     public function email($message = [])
     {
@@ -44,9 +43,7 @@ class Messages {
     /**
      * @param array $message
      * @return Response
-     * @throws FlashyClientException
-     * @throws FlashyException
-     * @throws FlashyResponseException
+     * @throws FlashyClientException|FlashyResponseException|FlashyAuthenticationException|FlashyException
      */
     public function sms($message = [])
     {
