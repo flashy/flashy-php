@@ -2,12 +2,10 @@
 
 namespace Flashy\Tests;
 
-use Exception;
 use Flashy\Exceptions\FlashyClientException;
 use Flashy\Exceptions\FlashyException;
 use Flashy\Exceptions\FlashyResponseException;
 use Flashy\Helper;
-use Illuminate\Support\Str;
 
 class ListsTest extends BaseTest
 {
@@ -23,6 +21,13 @@ class ListsTest extends BaseTest
         $this->init();
 
         $lists = $this->api->lists->get();
+
+        foreach( $lists as $list )
+        {
+            Helper::dd($list);
+        }
+
+//        Helper::dd( $lists );
 
         $this->assertTrue($lists->success());
     }
