@@ -393,19 +393,13 @@ class ContactsTest extends BaseTest
      * @throws FlashyClientException
      * @throws FlashyResponseException|FlashyException|FlashyAuthenticationException
      */
-    public function get_contact_fields()
+    public function get_contact_properties()
     {
         $this->init();
 
-        $properties = $this->api->contacts->properties(true);
+        $properties = $this->api->contacts->properties();
 
-        Helper::dd($properties);
-
-        $this->assertTrue($subscribe->success());
-
-        $this->assertArrayContains([
-            'lists' => [4 => false, 6 => false, 5 => false],
-        ], $subscribe->getData());
+        $this->assertTrue($properties->success());
     }
 
 }
