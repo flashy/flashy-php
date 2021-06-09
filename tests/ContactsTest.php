@@ -3,6 +3,7 @@
 namespace Flashy\Tests;
 
 use Exception;
+use Flashy\Exceptions\FlashyAuthenticationException;
 use Flashy\Exceptions\FlashyClientException;
 use Flashy\Exceptions\FlashyException;
 use Flashy\Exceptions\FlashyResponseException;
@@ -15,7 +16,7 @@ class ContactsTest extends BaseTest
      * @test
      * @throws FlashyClientException
      * @throws FlashyResponseException
-     * @throws FlashyException
+     * @throws FlashyException|FlashyAuthenticationException
      */
     public function create_contact_with_tracking()
     {
@@ -42,7 +43,7 @@ class ContactsTest extends BaseTest
     /**
      * @test
      * @throws FlashyClientException
-     * @throws FlashyResponseException|FlashyException
+     * @throws FlashyResponseException|FlashyException|FlashyAuthenticationException
      */
     public function create_contact_with_tracking_without_overwrite()
     {
@@ -66,7 +67,7 @@ class ContactsTest extends BaseTest
      * @test
      * @throws FlashyClientException
      * @throws FlashyResponseException
-     * @throws FlashyException
+     * @throws FlashyException|FlashyAuthenticationException
      */
     public function create_contact_with_tracking_overwrite()
     {
@@ -114,7 +115,7 @@ class ContactsTest extends BaseTest
     /**
      * @test
      * @throws FlashyClientException
-     * @throws FlashyResponseException|FlashyException
+     * @throws FlashyResponseException|FlashyException|FlashyAuthenticationException
      */
     public function update_contact_by_email()
     {
@@ -137,7 +138,7 @@ class ContactsTest extends BaseTest
     /**
      * @test
      * @throws FlashyClientException
-     * @throws FlashyResponseException|FlashyException
+     * @throws FlashyResponseException|FlashyException|FlashyAuthenticationException
      */
     public function update_contact_by_contact_id()
     {
@@ -161,7 +162,7 @@ class ContactsTest extends BaseTest
     /**
      * @test
      * @throws FlashyClientException
-     * @throws FlashyResponseException|FlashyException
+     * @throws FlashyResponseException|FlashyException|FlashyAuthenticationException
      */
     public function delete_contact()
     {
@@ -184,7 +185,7 @@ class ContactsTest extends BaseTest
     /**
      * @test
      * @throws FlashyClientException
-     * @throws FlashyResponseException|FlashyException
+     * @throws FlashyResponseException|FlashyException|FlashyAuthenticationException
      */
     public function delete_contact_by_contact_id()
     {
@@ -205,7 +206,7 @@ class ContactsTest extends BaseTest
     /**
      * @test
      * @throws FlashyClientException
-     * @throws FlashyResponseException|FlashyException
+     * @throws FlashyResponseException|FlashyException|FlashyAuthenticationException
      */
     public function get_contact()
     {
@@ -223,7 +224,7 @@ class ContactsTest extends BaseTest
     /**
      * @test
      * @throws FlashyClientException
-     * @throws FlashyResponseException|FlashyException
+     * @throws FlashyResponseException|FlashyException|FlashyAuthenticationException
      */
     public function get_contact_by_contact_id()
     {
@@ -241,7 +242,7 @@ class ContactsTest extends BaseTest
     /**
      * @test
      * @throws FlashyClientException
-     * @throws FlashyResponseException|FlashyException
+     * @throws FlashyResponseException|FlashyException|FlashyAuthenticationException
      */
     public function get_contact_not_found()
     {
@@ -255,7 +256,7 @@ class ContactsTest extends BaseTest
     /**
      * @test
      * @throws FlashyClientException
-     * @throws FlashyResponseException|FlashyException
+     * @throws FlashyResponseException|FlashyException|FlashyAuthenticationException
      */
     public function get_contact_not_found_by_contact_id()
     {
@@ -270,6 +271,7 @@ class ContactsTest extends BaseTest
      * @test
      * @throws FlashyClientException
      * @throws FlashyResponseException|FlashyException
+     * @throws FlashyAuthenticationException
      */
     public function subscribe_contact_to_a_list()
     {
@@ -277,7 +279,7 @@ class ContactsTest extends BaseTest
 
         $this->api->contacts->delete("sam@flashyapp.com");
 
-        $subscribe = $this->api->contacts->subscribe("sam@flashyapp.com", [4, 6]);
+        $subscribe = $this->api->contacts->subscribe(['email' => 'sam@flashyapp.com'], [4, 6]);
 
         $this->assertTrue( $subscribe->success() );
 
@@ -290,12 +292,34 @@ class ContactsTest extends BaseTest
      * @test
      * @throws FlashyClientException
      * @throws FlashyResponseException|FlashyException
+     * @throws FlashyAuthenticationException
+     */
+    public function subscribe_contact_to_a_list_identifier()
+    {
+        $this->init();
+
+        $this->api->contacts->delete("sam@flashyapp.com");
+
+        $subscribe = $this->api->contacts->subscribe('sam@flashyapp.com', [4, 6]);
+
+        $this->assertTrue( $subscribe->success() );
+
+        $this->assertArrayContains([
+            'lists' => [4 => true, 6 => true],
+        ], $subscribe->getData());
+    }
+
+    /**
+     * @test
+     * @throws FlashyClientException
+     * @throws FlashyResponseException|FlashyException
+     * @throws FlashyAuthenticationException
      */
     public function subscribe_contact_to_a_list_by_contact_id()
     {
         $this->init();
 
-        $subscribe = $this->api->contacts->subscribe("d3c49d31a67f77ef3cbf0a83162f3f99", 5, "contact_id");
+        $subscribe = $this->api->contacts->subscribe(['contact_id' => '24d82d6602bc5ebe52282f4456095fd7'], 5, 'contact_id');
 
         $this->assertTrue($subscribe->success());
 
@@ -308,12 +332,13 @@ class ContactsTest extends BaseTest
      * @test
      * @throws FlashyClientException
      * @throws FlashyResponseException|FlashyException
+     * @throws FlashyAuthenticationException
      */
     public function unsubscribe_contact_to_a_list()
     {
         $this->init();
 
-        $subscribe = $this->api->contacts->unsubscribe("sam@flashyapp.com", [4, 6]);
+        $subscribe = $this->api->contacts->unsubscribe(["email" => "sam@flashyapp.com"], [4, 6]);
 
         $this->assertTrue($subscribe->success());
 
@@ -326,12 +351,55 @@ class ContactsTest extends BaseTest
      * @test
      * @throws FlashyClientException
      * @throws FlashyResponseException|FlashyException
+     * @throws FlashyAuthenticationException
+     */
+    public function unsubscribe_contact_to_a_list_by_identifier()
+    {
+        $this->init();
+
+        $this->api->contacts->delete("sam@flashyapp.com");
+
+        $this->api->contacts->subscribe('sam@flashyapp.com', [4, 6]);
+
+        $unsubscribe = $this->api->contacts->unsubscribe("sam@flashyapp.com", 4);
+
+        $this->assertTrue($unsubscribe->success());
+
+        $this->assertArrayContains([
+            'lists' => [4 => false, 6 => true],
+        ], $unsubscribe->getData());
+    }
+
+    /**
+     * @test
+     * @throws FlashyClientException
+     * @throws FlashyResponseException|FlashyException|FlashyAuthenticationException
      */
     public function unsubscribe_contact_to_a_list_by_contact_id()
     {
         $this->init();
 
-        $subscribe = $this->api->contacts->unsubscribe("d3c49d31a67f77ef3cbf0a83162f3f99", 5, "contact_id");
+        $subscribe = $this->api->contacts->unsubscribe(["contact_id" => "24d82d6602bc5ebe52282f4456095fd7"], 5, "contact_id");
+
+        $this->assertTrue($subscribe->success());
+
+        $this->assertArrayContains([
+            'lists' => [4 => false, 6 => false, 5 => false],
+        ], $subscribe->getData());
+    }
+
+    /**
+     * @test
+     * @throws FlashyClientException
+     * @throws FlashyResponseException|FlashyException|FlashyAuthenticationException
+     */
+    public function get_contact_fields()
+    {
+        $this->init();
+
+        $properties = $this->api->contacts->properties(true);
+
+        Helper::dd($properties);
 
         $this->assertTrue($subscribe->success());
 

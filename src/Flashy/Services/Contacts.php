@@ -23,6 +23,7 @@ class Contacts {
     }
 
     /**
+     * Create a contact
      * @param array $contact Contact information array
      * @param string $primary_key Default is email but any field can be used
      * @param bool $tracking Set cookie to remember the contact
@@ -62,6 +63,7 @@ class Contacts {
     }
 
     /**
+     * Update a contact
      * @param array $contact Contact information array
      * @param string $primary_key Default is email but any field can be used
      * @return Response
@@ -82,6 +84,7 @@ class Contacts {
     }
 
     /**
+     * Get a contact
      * @param mixed $identifier The identifier to find the contact
      * @param string $primary_key Default is email but any field can be used (phone, token)
      * @return Response
@@ -94,6 +97,7 @@ class Contacts {
     }
 
     /**
+     * Delete a contact
      * @param $identifier
      * @param string $primary_key
      * @return Response
@@ -106,8 +110,9 @@ class Contacts {
     }
 
     /**
-     * @param $contact
-     * @param $lists
+     * Create or update contact with lists subscriptions
+     * @param mixed $contact Contact array or identifier to create / update the contact
+     * @param array|int $lists Can be array of lists ids or single list ID
      * @param string $primary_key
      * @param bool $tracking
      * @return Response
@@ -116,9 +121,10 @@ class Contacts {
      */
     public function subscribe($contact, $lists, $primary_key = "email", $tracking = true)
     {
-        $contact = array(
-            $primary_key => $contact
-        );
+        if( gettype($contact) !== 'array' )
+        {
+            $contact = [$primary_key => $contact];
+        }
 
         if( gettype($lists) !== "array" )
         {
@@ -134,8 +140,9 @@ class Contacts {
     }
 
     /**
-     * @param $contact
-     * @param $lists
+     * Unsubscribe contact from specific lists
+     * @param mixed $contact Contact array or identifier to update the contact
+     * @param array|int $lists Can be array of lists ids or single list ID
      * @param string $primary_key
      * @param bool $tracking
      * @return Response
@@ -144,9 +151,10 @@ class Contacts {
      */
     public function unsubscribe($contact, $lists, $primary_key = "email", $tracking = true)
     {
-        $contact = array(
-            $primary_key => $contact
-        );
+        if( gettype($contact) !== 'array' )
+        {
+            $contact = [$primary_key => $contact];
+        }
 
         if( gettype($lists) !== "array" )
         {
@@ -171,6 +179,18 @@ class Contacts {
     public function lists($identifier, $primary_key = "email")
     {
         return $this->flashy->client->get("contact/" . $identifier . "/lists?primary_key=" . $primary_key);
+    }
+
+    /**
+     * @param bool $flat
+     * @return Response
+     * @throws FlashyAuthenticationException
+     * @throws FlashyClientException
+     * @throws FlashyResponseException
+     */
+    public function properties($flat = true)
+    {
+        return $this->flashy->client->get('properties?property=contact&flat=' . $flat);
     }
 
 }

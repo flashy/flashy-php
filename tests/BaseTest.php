@@ -24,7 +24,7 @@ class BaseTest extends TestCase
         require_once(__DIR__ . "/../src/Flashy/Flashy.php");
 
         $this->api = new Flashy(array(
-            "api_key" => "tdbydujluskmwioteyfcw7zqjhwrfxss"
+            "api_key" => "f3S5xILj9w83fa1PQFrICIyGljHecSKH"
         ));
     }
 

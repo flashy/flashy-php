@@ -2,6 +2,7 @@
 
 namespace Flashy\Services;
 
+use Flashy\Exceptions\FlashyAuthenticationException;
 use Flashy\Exceptions\FlashyClientException;
 use Flashy\Exceptions\FlashyResponseException;
 use Flashy\Flashy;
@@ -27,7 +28,7 @@ class Platforms {
      * @param array $platform
      * @return Response
      * @throws FlashyClientException
-     * @throws FlashyResponseException
+     * @throws FlashyResponseException|FlashyAuthenticationException
      */
     public function connect(array $platform)
     {
