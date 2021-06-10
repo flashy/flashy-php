@@ -4,6 +4,7 @@ namespace Flashy;
 
 // TODO [low] needs to switch the flashy_id to fls_id = contact_id
 
+use Closure;
 use Exception;
 
 class Helper
@@ -176,6 +177,36 @@ class Helper
     public function forget()
     {
         setcookie("flashy_id", "", time()-3600, "/");
+    }
+
+    /**
+     * @param Closure $func
+     * @return mixed
+     */
+    public static function tryOrLog(Closure $func)
+    {
+        if( phpversion() > 7 )
+        {
+            try {
+                return $func();
+            }
+            catch ( \Throwable $e )
+            {
+                self::log("Was not able to do something safely: {$e->getMessage()} \n " . $e->getTraceAsString());
+            }
+        }
+        else
+        {
+            try {
+                return $func();
+            }
+            catch ( Exception $e )
+            {
+                self::log("Was not able to do something safely: {$e->getMessage()} \n " . $e->getTraceAsString());
+            }
+        }
+
+        return null;
     }
 
 }
