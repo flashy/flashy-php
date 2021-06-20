@@ -32,7 +32,7 @@ class Events {
 
         $this->client = new Client();
 
-//        $this->client->setBasePath("https://tracking.cbox/track");
+        $this->client->setBasePath("https://track.flashyapp.com");
     }
 
     /**
@@ -96,14 +96,14 @@ class Events {
         if(count($events) == 0)
             return new Response(array('success' => false, 'errors' => 'events not found'), false);
 
-        $call = $this->client->post('events', $events);
+        $event = $this->client->post('events', $events);
 
-        if( $call->success() )
+        if( $event->success() )
         {
             Helper::clearThunderCookie();
         }
 
-        return $call;
+        return $event;
     }
 
 }

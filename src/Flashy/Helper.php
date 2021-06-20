@@ -209,4 +209,23 @@ class Helper
         return null;
     }
 
+    /**
+     * @param $haystack
+     * @param $needle
+     * @return bool
+     */
+    public static function contains($haystack, $needle)
+    {
+        if( gettype($needle) !== 'array' )
+            return strpos($haystack, $needle) !== false;
+
+        foreach( $needle as $part )
+        {
+            if( strpos($haystack, $part) !== false )
+                return true;
+        }
+
+        return false;
+    }
+
 }

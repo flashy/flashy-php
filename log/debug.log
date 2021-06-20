@@ -1,4 +1,0 @@
-Call to endpoint: GET http://storm.cbox/account payload: 
-{"server":["nginx\/1.19.10"],"content-type":["application\/json"],"transfer-encoding":["chunked"],"connection":["keep-alive"],"x-powered-by":["PHP\/7.4.16"],"cache-control":["no-cache, private"],"date":["Tue, 25 May 2021 21:54:01 GMT"]}
-Completed in 83.60ms
-Got response: {"success":false,"errors":{"key":"unauthorized"}}
