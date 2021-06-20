@@ -2,18 +2,20 @@
 
 namespace Flashy\Tests;
 
+use Flashy\Exceptions\FlashyAuthenticationException;
 use Flashy\Exceptions\FlashyClientException;
 use Flashy\Exceptions\FlashyException;
 use Flashy\Exceptions\FlashyResponseException;
-use Flashy\Helper;
 
 class EventsTest extends BaseTest
 {
+
     /**
      * @test
      * @throws FlashyClientException
      * @throws FlashyResponseException
      * @throws FlashyException
+     * @throws FlashyAuthenticationException
      */
     public function send_tracking_without_contact_info()
     {
@@ -30,7 +32,7 @@ class EventsTest extends BaseTest
      * @test
      * @throws FlashyClientException
      * @throws FlashyResponseException
-     * @throws FlashyException
+     * @throws FlashyException|FlashyAuthenticationException
      */
     public function send_tracking_event()
     {
@@ -48,7 +50,7 @@ class EventsTest extends BaseTest
      * @test
      * @throws FlashyClientException
      * @throws FlashyResponseException
-     * @throws FlashyException
+     * @throws FlashyException|FlashyAuthenticationException
      */
     public function tracking_bulk_events()
     {

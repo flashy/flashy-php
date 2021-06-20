@@ -46,4 +46,23 @@ class HelperTest extends BaseTest
         $this->assertTrue(true);
     }
 
+    /**
+     * @test
+     * @throws FlashyException
+     */
+    public function test_contains()
+    {
+        $this->init();
+
+        $this->assertTrue(Helper::contains("Something", "Some"));
+
+        $this->assertFalse(Helper::contains("Something", "Somesp"));
+
+        $this->assertFalse(Helper::contains("Something", ["123", "456"]));
+
+        $this->assertTrue(Helper::contains("Something", ["Some", "456"]));
+
+        $this->assertTrue(Helper::contains("Something", ["Some", "thing"]));
+    }
+
 }
