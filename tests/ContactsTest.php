@@ -55,7 +55,7 @@ class ContactsTest extends BaseTest
         ));
 
         $this->assertArrayContains([
-            'contact_id' => '90fa120ee8d74fbf8908802b1993e356',
+            'contact_id' => 'f81fac9cb902e0ea1ad67ceaa60c4c5f',
             'email' => 'flashy@gmail.com',
             'first_name' => 'rafael',
         ], $subscribe->getData());
@@ -79,7 +79,7 @@ class ContactsTest extends BaseTest
         ), "email", true, true);
 
         $this->assertArrayContains([
-            'contact_id' => '90fa120ee8d74fbf8908802b1993e356',
+            'contact_id' => 'f81fac9cb902e0ea1ad67ceaa60c4c5f',
             'email' => 'flashy@gmail.com',
             'last_name' => 'mor',
         ], $subscribe->getData());
@@ -100,12 +100,12 @@ class ContactsTest extends BaseTest
         $custom = Str::random(5);
 
         $subscribe = $this->api->contacts->create(array(
-            'contact_id' => '90fa120ee8d74fbf8908802b1993e356',
+            'contact_id' => 'f81fac9cb902e0ea1ad67ceaa60c4c5f',
             "custom" => $custom
         ), "contact_id", true, true);
 
         $this->assertArrayContains([
-            'contact_id' => '90fa120ee8d74fbf8908802b1993e356',
+            'contact_id' => 'f81fac9cb902e0ea1ad67ceaa60c4c5f',
             "custom" => $custom
         ], $subscribe->getData());
 
@@ -147,7 +147,7 @@ class ContactsTest extends BaseTest
         $custom = Str::random(5);
 
         $subscribe = $this->api->contacts->update(array(
-            "contact_id" => "90fa120ee8d74fbf8908802b1993e356",
+            "contact_id" => "f81fac9cb902e0ea1ad67ceaa60c4c5f",
             "custom" => $custom
         ), "contact_id");
 
@@ -230,12 +230,12 @@ class ContactsTest extends BaseTest
     {
         $this->init();
 
-        $subscribe = $this->api->contacts->get("d3c49d31a67f77ef3cbf0a83162f3f99", "contact_id");
+        $subscribe = $this->api->contacts->get("f81fac9cb902e0ea1ad67ceaa60c4c5f", "contact_id");
 
         $this->assertTrue($subscribe->success());
 
         $this->assertArrayContains([
-            'email' => 'sam@flashyapp.com',
+            'email' => 'flashy@gmail.com',
         ], $subscribe->getData());
     }
 
@@ -379,7 +379,7 @@ class ContactsTest extends BaseTest
     {
         $this->init();
 
-        $subscribe = $this->api->contacts->unsubscribe(["contact_id" => "24d82d6602bc5ebe52282f4456095fd7"], 5, "contact_id");
+        $subscribe = $this->api->contacts->unsubscribe(["contact_id" => "24d82d6602bc5ebe52282f4456095fd7"], [5,6], "contact_id");
 
         $this->assertTrue($subscribe->success());
 

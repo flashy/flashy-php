@@ -2,10 +2,10 @@
 
 namespace Flashy\Tests;
 
+use Flashy\Exceptions\FlashyAuthenticationException;
 use Flashy\Exceptions\FlashyClientException;
 use Flashy\Exceptions\FlashyException;
 use Flashy\Exceptions\FlashyResponseException;
-use Flashy\Helper;
 
 class MessagesTest extends BaseTest
 {
@@ -14,7 +14,7 @@ class MessagesTest extends BaseTest
      * @test
      * @throws FlashyClientException
      * @throws FlashyException
-     * @throws FlashyResponseException
+     * @throws FlashyResponseException|FlashyAuthenticationException
      */
     public function send_email_message_fail()
     {

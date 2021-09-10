@@ -7,7 +7,7 @@ use Flashy\Exceptions\FlashyClientException;
 use Flashy\Exceptions\FlashyException;
 use Flashy\Exceptions\FlashyResponseException;
 
-class EventsTest extends BaseTest
+class EventsTestPending extends BaseTest
 {
 
     /**
@@ -39,8 +39,11 @@ class EventsTest extends BaseTest
         $this->init();
 
         $account = $this->api->events->track("Purchase", [
-            "content_ids" => [],
-            "contact_id" => "123"
+            "account_id" => 165,
+            "content_ids" => ["123"],
+            "email" => "hello12@flashyapp.com",
+            "value" => 100,
+            "order_id" => "559"
         ]);
 
         $this->assertTrue($account->success());

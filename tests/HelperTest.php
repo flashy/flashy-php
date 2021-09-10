@@ -33,11 +33,7 @@ class HelperTest extends BaseTest
     {
         $this->init();
 
-        $list = 4;
-
-        Helper::tryOrLog(function() use ($list) {
-
-            Helper::dd($list);
+        Helper::tryOrLog(function() {
 
             badfunction($as);
 
