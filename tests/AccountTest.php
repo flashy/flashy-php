@@ -2,10 +2,10 @@
 
 namespace Flashy\Tests;
 
+use Flashy\Exceptions\FlashyAuthenticationException;
 use Flashy\Exceptions\FlashyClientException;
 use Flashy\Exceptions\FlashyException;
 use Flashy\Exceptions\FlashyResponseException;
-use Flashy\Helper;
 
 class AccountTest extends BaseTest
 {
@@ -15,6 +15,7 @@ class AccountTest extends BaseTest
      * @throws FlashyClientException
      * @throws FlashyResponseException
      * @throws FlashyException
+     * @throws FlashyAuthenticationException
      */
     public function get_account_info()
     {

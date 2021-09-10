@@ -32,7 +32,7 @@ class Events {
 
         $this->client = new Client();
 
-        $this->client->setBasePath("https://track.flashyapp.com");
+        $this->client->setBasePath("https://track.flashyapp.com/events/");
     }
 
     /**

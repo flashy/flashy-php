@@ -22,11 +22,6 @@ class ListsTest extends BaseTest
 
         $lists = $this->api->lists->get();
 
-        foreach( $lists as $list )
-        {
-            Helper::dd($list);
-        }
-
 //        Helper::dd( $lists );
 
         $this->assertTrue($lists->success());

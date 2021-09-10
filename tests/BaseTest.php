@@ -26,9 +26,12 @@ class BaseTest extends TestCase
             require_once(__DIR__ . "/../src/Flashy/Flashy.php");
         }
 
+        // Account id = 2
         $this->api = new Flashy(array(
             "api_key" => "f3S5xILj9w83fa1PQFrICIyGljHecSKH"
         ));
+
+        $this->api->client->setBasePath('http://storm.cbox/');
     }
 
     /**
@@ -38,6 +41,14 @@ class BaseTest extends TestCase
     public function assertArrayContains($expected, $result)
     {
         $this->assertEquals($expected, Arr::only($result, array_keys($expected)));
+    }
+
+    /**
+     * @test
+     */
+    public function firstTest()
+    {
+        $this->assertTrue(true);
     }
 
 }
