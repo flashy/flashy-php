@@ -7,6 +7,8 @@ use Flashy\Exceptions\FlashyClientException;
 use Flashy\Exceptions\FlashyException;
 use Flashy\Exceptions\FlashyResponseException;
 
+// TODO add testing for Single SMS + Single Email + Bulk Email
+
 class MessagesTest extends BaseTest
 {
 

@@ -5,7 +5,6 @@ namespace Flashy\Tests;
 use Flashy\Exceptions\FlashyClientException;
 use Flashy\Exceptions\FlashyException;
 use Flashy\Exceptions\FlashyResponseException;
-use Flashy\Helper;
 
 class ListsTest extends BaseTest
 {
