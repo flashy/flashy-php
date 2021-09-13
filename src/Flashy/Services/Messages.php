@@ -10,6 +10,7 @@ use Flashy\Flashy;
 use Flashy\Response;
 
 class Messages {
+    //TODO - go over validation and bulk sending
 
     /**
      * @var Flashy

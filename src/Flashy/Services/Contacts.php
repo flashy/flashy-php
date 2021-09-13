@@ -11,6 +11,8 @@ use Flashy\Helper;
 use Flashy\Response;
 
 class Contacts {
+    //TODO Search Contacts - "search_by_email_or_phone"
+    //TODO Unsubscribe from all the lists - "block"
 
     /**
      * @var Flashy
@@ -170,6 +172,7 @@ class Contacts {
     }
 
     /**
+     * Get all lists of a contact
      * @param $identifier
      * @param string $primary_key
      * @return Response
