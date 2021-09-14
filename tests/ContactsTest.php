@@ -27,7 +27,7 @@ class ContactsTest extends BaseTest
         $subscribe = $this->api->contacts->create(array(
             "email" => $email,
             "first_name" => "rafael",
-            "custom" => "anything",
+            "custom" => "anything", // Must be created on the account to be saved
             'unknown' => true,
         ));
 
@@ -400,6 +400,40 @@ class ContactsTest extends BaseTest
         $properties = $this->api->contacts->properties();
 
         $this->assertTrue($properties->success());
+    }
+
+    /**
+     * @test
+     * @throws FlashyClientException
+     * @throws FlashyResponseException
+     * @throws FlashyException|FlashyAuthenticationException
+     */
+    public function create_contacts_with_lists_and_block()
+    {
+        $this->init();
+
+        $email = Str::random(4) . "@flashyapp.com";
+
+        $subscribe = $this->api->contacts->create(array(
+            "email" => $email,
+            "first_name" => "rafael",
+            "custom" => "anything",
+            'unknown' => true,
+            "lists" => [
+                150 => true,
+                155 => false
+            ]
+        ));
+
+        $this->assertArrayContains(['lists' => [150 => true, 155 => false]], $subscribe->getData());
+
+        $this->api->contacts->block($email);
+
+        $contact = $this->api->contacts->get($email);
+
+        $this->assertArrayContains([
+            'lists' => [150 => false, 155 => false]
+        ], $contact->getData());
     }
 
 }
