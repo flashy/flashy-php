@@ -10,7 +10,6 @@ use Flashy\Flashy;
 use Flashy\Response;
 
 class Messages {
-    //TODO - go over validation and bulk sending
 
     /**
      * @var Flashy
@@ -35,10 +34,19 @@ class Messages {
     {
         $this->validateMessage($message);
 
-//        if( !isset($message['to']) || gettype($message['to']) != "array" || count($message['to']) === 0 )
-//            throw new FlashyException("Message [to] is empty or invalid");
+        if( !isset($message['template']) && !isset($message['subject']) )
+            throw new FlashyException("Message [subject] is required if not using template");
 
-        return $this->flashy->client->post("messages/email");
+        if( !isset($message['template']) && !isset($message['html']) )
+            throw new FlashyException("Message [template or html] is required");
+
+        if( !isset($message['from']) )
+            throw new FlashyException("Message [from] is required");
+
+        if( !isset($message['to']) )
+            throw new FlashyException("Message [message] is required");
+
+        return $this->flashy->client->post("messages/email", ['message' => $message]);
     }
 
     /**
@@ -51,9 +59,15 @@ class Messages {
         $this->validateMessage($message);
 
         if( !isset($message['to']) )
-            throw new FlashyException("Message [to] is empty");
+            throw new FlashyException("Message [to] is required");
 
-        return $this->flashy->client->post("messages/sms");
+        if( !isset($message['from']) )
+            throw new FlashyException("Message [from] is required");
+
+        if( !isset($message['message']) )
+            throw new FlashyException("Message [message] is required");
+
+        return $this->flashy->client->post("messages/sms", ["message" => $message]);
     }
 
     /**
