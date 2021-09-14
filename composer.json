@@ -6,7 +6,7 @@
         "flashy-php"
     ],
     "homepage": "https://github.com/flashy/flashy-php",
-    "license": "MIT",
+    "license": "Apache-2.0",
     "type": "library",
     "authors": [
         {
