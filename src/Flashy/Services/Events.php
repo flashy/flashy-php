@@ -2,7 +2,6 @@
 
 namespace Flashy\Services;
 
-use Flashy\Client;
 use Flashy\Exceptions\FlashyAuthenticationException;
 use Flashy\Exceptions\FlashyClientException;
 use Flashy\Exceptions\FlashyResponseException;
@@ -18,21 +17,12 @@ class Events {
     protected $flashy;
 
     /**
-     * @var Client
-     */
-    private $client;
-
-    /**
      * Events constructor.
      * @param $flashy
      */
     public function __construct($flashy)
     {
         $this->flashy = $flashy;
-
-        $this->client = new Client();
-
-        $this->client->setBasePath("https://track.flashyapp.com/events/");
     }
 
     /**
@@ -54,7 +44,7 @@ class Events {
             "body" => $params
         );
 
-        return $this->client->post("track", $payload);
+        return $this->flashy->client->post("event", $payload);
     }
 
     /**
@@ -96,7 +86,7 @@ class Events {
         if(count($events) == 0)
             return new Response(array('success' => false, 'errors' => 'events not found'), false);
 
-        $event = $this->client->post('events', $events);
+        $event = $this->flashy->client->post('events/bulk', $events);
 
         if( $event->success() )
         {

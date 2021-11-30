@@ -31,7 +31,7 @@ class BaseTest extends TestCase
             "api_key" => "f3S5xILj9w83fa1PQFrICIyGljHecSKH"
         ));
 
-        $this->api->client->setBasePath('http://storm.cbox/');
+        $this->api->client->setBasePath('https://storm.cbox/');
     }
 
     /**
