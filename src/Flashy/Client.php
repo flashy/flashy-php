@@ -26,7 +26,7 @@ class Client
     /**
      * @var bool Debug Mode
      */
-    protected $debug = true;
+    protected $debug = false;
 
     /**
      * @var bool
