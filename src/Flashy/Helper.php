@@ -112,7 +112,7 @@ class Helper
         $domain = self::getRootDomain();
 
         if( $domain )
-            setcookie($key, $value, time() + (360 * 24 * 60 * 60), "/", $domain);
+            setcookie($key, $value, time() + (360 * 24 * 60 * 60), "/", "." . $domain);
         else
             setcookie($key, $value, time() + (360 * 24 * 60 * 60), "/");
     }
