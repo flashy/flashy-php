@@ -91,9 +91,7 @@ class Helper
             {
                 Helper::log("Create cookie: flashy_id : " . $contact_id);
 
-                self::$cookie["flashy_id"] = $contact_id;
-
-                setcookie("flashy_id", $contact_id, time() + (360 * 24 * 60 * 60), "/");
+                self::setCookie("flashy_id", $contact_id);
             }
         }
         catch( Exception $e )
@@ -101,6 +99,50 @@ class Helper
             Helper::log("Flashy was not able to create a cookie: " . $e->getMessage());
             Helper::log($e->getTraceAsString());
         }
+    }
+
+    /**
+     * @param $key
+     * @param $value
+     */
+    public static function setCookie($key, $value)
+    {
+        self::$cookie[$key] = $value;
+
+        $domain = self::getRootDomain();
+
+        if( $domain )
+            setcookie($key, $value, time() + (360 * 24 * 60 * 60), "/", $domain);
+        else
+            setcookie($key, $value, time() + (360 * 24 * 60 * 60), "/");
+    }
+
+    /**
+     * @param null $domain
+     * @return array|string|string[]|null
+     */
+    public static function getRootDomain($domain = null)
+    {
+        if( $domain === null && isset($_SERVER['SERVER_NAME']) && !empty($_SERVER['SERVER_NAME']))
+        {
+            $domain = $_SERVER['SERVER_NAME'];
+        }
+
+        if( !$domain )
+            return null;
+
+        return self::getTopDomain("https://" . $domain);
+    }
+
+    /**
+     * @param $url
+     * @return array|string|string[]|null
+     */
+    public static function getTopDomain($url)
+    {
+        $pieces = parse_url($url);
+
+        return preg_replace("/^([a-zA-Z0-9].*\.)?([a-zA-Z0-9][a-zA-Z0-9-]{1,61}[a-zA-Z0-9]\.[a-zA-Z.]{2,})$/", '$2', $pieces['host']);
     }
 
     /**

@@ -61,4 +61,24 @@ class HelperTest extends BaseTest
         $this->assertTrue(Helper::contains("Something", ["Some", "thing"]));
     }
 
+    /**
+     * @test
+     */
+    public function get_root_domain()
+    {
+        $this->assertEquals("flashy.studio", Helper::getRootDomain("woo.flashy.studio"));
+
+        $this->assertEquals("flashy.academy", Helper::getRootDomain("woo.flashy.academy"));
+
+        $this->assertEquals("google.co.il", Helper::getRootDomain("demo.google.co.il"));
+
+        $this->assertEquals("google.co.il", Helper::getRootDomain("google.co.il"));
+
+        $this->assertEquals("google.academy", Helper::getRootDomain("google.academy"));
+
+        $this->assertEquals("google.academy", Helper::getRootDomain("demo.google.academy"));
+
+        $this->assertEquals("ניסיון.co.il", Helper::getRootDomain("ניסיון.co.il"));
+    }
+
 }
