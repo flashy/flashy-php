@@ -61,3 +61,18 @@ $flashy->events->track("Purchase", [
     "context" => []
 ]);
 ```
+
+
+### Relocated: Send Email / Send SMS
+We have unified our communication channels into one class, so you can easily send Email / SMS.
+
+``` php
+// Send Email
+$flashy->messages->email($message);
+
+// Send SMS Message
+$flashy->messages->sms($message);
+```
+
+You can read here about the full $message payload:
+https://flashy.app/docs/rest-api/#/reference/0/messages
