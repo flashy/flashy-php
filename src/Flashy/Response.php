@@ -26,12 +26,9 @@ class Response implements \ArrayAccess
      */
     public function __construct($response, $decode = true, $headers = [])
     {
-        if( $decode === true )
-        {
+        if ($decode === true) {
             $this->body = $this->decode($response);
-        }
-        else
-        {
+        } else {
             $this->body = $response;
         }
 
@@ -43,12 +40,11 @@ class Response implements \ArrayAccess
      * @return array|bool|float|int|mixed
      * @throws FlashyResponseException
      */
-    public function decode($response)
+    public function decode($response): mixed
     {
         $result = json_decode($response, true);
 
-        if ($result === null && json_last_error() !== JSON_ERROR_NONE)
-        {
+        if ($result === null && json_last_error() !== JSON_ERROR_NONE) {
             throw new FlashyResponseException('Unable to decode json string.');
         }
 
@@ -58,18 +54,19 @@ class Response implements \ArrayAccess
     /**
      * @return array|mixed
      */
-    public function getErrors()
+    public function getErrors(): mixed
     {
-        if( isset($this->body['errors']) )
+        if (isset($this->body['errors'])) {
             return $this->body['errors'];
+        }
 
-        return array();
+        return [];
     }
 
     /**
      * @return bool
      */
-    public function hasErrors()
+    public function hasErrors(): bool
     {
         return count($this->getErrors()) > 0;
     }
@@ -77,7 +74,7 @@ class Response implements \ArrayAccess
     /**
      * @return bool
      */
-    public function success()
+    public function success(): bool
     {
         return ( isset($this->body['success']) ) ? $this->body['success'] : false;
     }
@@ -85,18 +82,19 @@ class Response implements \ArrayAccess
     /**
      * @return array|mixed
      */
-    public function getData()
+    public function getData(): mixed
     {
-        if( isset($this->body['data']) )
+        if (isset($this->body['data'])) {
             return $this->body['data'];
+        }
 
-        return array();
+        return [];
     }
 
     /**
      * @return array|bool|float|int|mixed|object|null
      */
-    public function getBody()
+    public function getBody(): mixed
     {
         return $this->body;
     }
@@ -105,10 +103,11 @@ class Response implements \ArrayAccess
      * @param $key
      * @return mixed|null
      */
-    public function __get($key)
+    public function __get($key): mixed
     {
-        if( ! isset($this->body['data'][$key]) )
+        if (! isset($this->body['data'][$key])) {
             return null;
+        }
 
         return $this->body['data'][$key];
     }
@@ -117,7 +116,7 @@ class Response implements \ArrayAccess
      * @param mixed $offset
      * @return bool
      */
-    public function offsetExists($offset): bool
+    public function offsetExists(mixed $offset): bool
     {
         return isset($this->body['data'][$offset]);
     }
@@ -126,7 +125,7 @@ class Response implements \ArrayAccess
      * @param mixed $offset
      * @return mixed|null
      */
-    public function offsetGet($offset): mixed
+    public function offsetGet(mixed $offset): mixed
     {
         return $this->$offset;
     }
@@ -135,7 +134,7 @@ class Response implements \ArrayAccess
      * @param mixed $offset
      * @param mixed $value
      */
-    public function offsetSet($offset, $value): void
+    public function offsetSet(mixed $offset,mixed $value): void
     {
         $this->body['data'][$offset] = $value;
     }
@@ -143,7 +142,7 @@ class Response implements \ArrayAccess
     /**
      * @param mixed $offset
      */
-    public function offsetUnset($offset): void
+    public function offsetUnset(mixed $offset): void
     {
         unset($this->body['data'][$offset]);
     }
@@ -151,17 +150,16 @@ class Response implements \ArrayAccess
     /**
      * @return array
      */
-    public function getHeaders()
+    public function getHeaders(): array
     {
         return $this->headers;
     }
 
     /**
-     * @return array
+     * @return float|object|array|bool|int|null
      */
-    public function toArray()
+    public function toArray(): float|object|array|bool|int|null
     {
         return $this->body;
     }
-
 }
