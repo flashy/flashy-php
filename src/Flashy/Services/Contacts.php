@@ -117,7 +117,7 @@ class Contacts {
      * @return Response
      * @throws FlashyClientException|FlashyResponseException|FlashyAuthenticationException
      */
-    public function subscribe($contact, $lists, $primary_key = "email", $tracking = true)
+    public function subscribe($contact, $lists, $primary_key = "email", $tracking = true, $overwrite = true)
     {
         if( gettype($contact) !== 'array' )
         {
@@ -134,7 +134,7 @@ class Contacts {
             $contact["lists"][$list] = 1;
         }
 
-        return $this->create($contact, $primary_key, $tracking, true);
+        return $this->create($contact, $primary_key, $tracking, $overwrite);
     }
 
     /**
